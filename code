@@ -1,0 +1,36 @@
+// Pin assignments
+const int ldrPin = A0;       // LDR connected to analog pin A0
+const int led1Pin = 8;       // LED1 always ON
+const int led2Pin = 7;       // LED2 ON when dark
+const int buzzerPin = 9;     // Buzzer ON continuously
+
+// Threshold value for light detection
+int threshold = 500;         // Adjust after checking Serial Monitor
+
+void setup() {
+  pinMode(led1Pin, OUTPUT);
+  pinMode(led2Pin, OUTPUT);
+  pinMode(buzzerPin, OUTPUT);
+  Serial.begin(9600);
+
+  // LED1 ON immediately and stays ON
+  digitalWrite(led1Pin, HIGH);
+
+  // Buzzer ON continuously
+  digitalWrite(buzzerPin, HIGH);
+}
+
+void loop() {
+  int ldrValue = analogRead(ldrPin);
+  Serial.println(ldrValue);
+
+  if (ldrValue < threshold) {
+    // Darkness detected → LED2 ON
+    digitalWrite(led2Pin, HIGH);
+  } else {
+    // Brightness detected → LED2 OFF
+    digitalWrite(led2Pin, LOW);
+  }
+
+  delay(200); // Small delay for stability
+}
